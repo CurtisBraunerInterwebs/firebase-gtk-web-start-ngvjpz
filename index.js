@@ -14,6 +14,7 @@ import * as firebaseui from 'firebaseui';
 // Document elements
 const startRsvpButton = document.getElementById('startRsvp');
 const guestbookContainer = document.getElementById('guestbook-container');
+const aboutContainer= document.getElementById('about-container');
 
 const form = document.getElementById('leave-message');
 const input = document.getElementById('message');
@@ -112,6 +113,16 @@ form.addEventListener('submit', async e => {
       guestbook.appendChild(entry);
     });
   });
+
+  const fill = query(collection(db, 'aboutText'), orderBy('use'));
+  onSnapshot(fill, snaps => {
+    aboutContainer.innerHTML = '';
+    snaps.forEach(doc => {
+      const blurb = document.createElement('p');
+      blurb.textContent = doc.data().text;
+      aboutContainer.appendChild(blurb);
+    })
+  })
 
 }
 main();
